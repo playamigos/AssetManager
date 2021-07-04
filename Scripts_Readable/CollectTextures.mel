@@ -1,0 +1,48 @@
+string $archivePath;
+string $newName;
+string $newNameEx;
+$path = `file -query -location`;
+$archivePath = dirname($path);
+$texturePath = $archivePath + "/.textures";
+
+
+string $confirmation = `confirmDialog -title "Confirm" -message "Collect textures to file location"
+    -button "Yes" -button "No" -defaultButton "Yes"
+    -cancelButton "No" -dismissString "No"`;
+
+if($confirmation == "Yes")
+{
+    sysFile -md $texturePath;
+
+    $dirs = `filePathEditor -query -listDirectories ""`;
+    string $dir;
+    for($dir in $dirs)
+    {
+        $attrs = `filePathEditor -query -ao -listFiles $dir`;
+        string $attr;
+        string $check;
+        string $check2;
+        for($attr in $attrs)
+        {
+            $check = `match ".imageName" $attr`;
+            $check2 = `match ".fileTextureName" $attr`;
+            if($check == ".imageName" || $check2 == ".fileTextureName")
+            {
+                print $attr;
+                //sysFile -copy $destWindows $srcWindows; 
+                filePathEditor -copyAndRepath $dir $texturePath $attr;
+            }
+        }
+    }
+    file -rn $path;
+    file -f -save  -options "v=0;";
+}
+else
+{
+    print "Texture collecting cancelled";
+}
+
+
+
+
+
