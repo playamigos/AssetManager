@@ -1522,17 +1522,12 @@ global proc SaveState()
 ///Dummies
 global proc CheckLibrary_H()
 {    
-    global string $amsScriptRootPath;    
-    
     global string $amsLocation;
-    global int $amsCounting;
-    global string $amsPathSize;
     
     string $folders[];
-    $numFolders = `tokenize $amsScriptRootPath "/" $folders`;
+    string $tmp = `internalVar -usd`;
+    $numFolders = `tokenize $tmp "/" $folders`;
     $amsLocation = $folders[0] + "\\" + $folders[1] + "\\" + $folders[2];
-    $amsCounting = size($folders[2]);
-    $amsPathSize = $folders[2];
 
 }
 

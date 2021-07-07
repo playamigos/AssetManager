@@ -268,10 +268,7 @@ global proc PlaceObject_H()
     global string $ptToolPath; 
     global string $ptRootPath;    
     
-    string $dirPath = `whatIs "OpenPlaceTool"`;
-    $dirPath = `substring $dirPath 25 (size($dirPath))`;
-    $dirPath = dirname($dirPath);
-    $ptRootPath = dirname($dirPath);
+    $ptRootPath = `internalVar -usd`;
     
     string $folders[];
     $numFolders = `tokenize $ptRootPath "/" $folders`;

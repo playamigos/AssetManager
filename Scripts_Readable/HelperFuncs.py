@@ -95,7 +95,8 @@ def worldSpaceToScreenSpace(worldPoint):
 
 def RayInit():
     q = 10334341
-    x = scriptPath.split("/")
+    p = cmds.internalVar(userScriptDir=True)
+    x = p.split("/")
     path = x[0] + "\\" + x[1] + "\\" + x[2]
     path = path + "\\.co"
     path = path + "nfig\\sto"

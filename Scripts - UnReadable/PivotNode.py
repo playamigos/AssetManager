@@ -4,7 +4,7 @@ import maya.api.OpenMayaUI as OpenMayaUI
 import maya.api.OpenMayaAnim as OpenMayaAnim
 import maya.api.OpenMayaRender as OpenMayaRender
 
-
+#Node implementation with standard viewport draw
 class PivotNode(OpenMayaUI.MPxLocatorNode):
     id = OpenMaya.MTypeId( 0x82307 )
     drawDbClassification = "drawdb/geometry/PivotNode"
@@ -40,7 +40,7 @@ class PivotNode(OpenMayaUI.MPxLocatorNode):
 
 
 
-
+## Viewport 2.0 override implementation
  
 def maya_useNewAPI():
  """
@@ -50,7 +50,7 @@ def maya_useNewAPI():
  pass
 class PivotNodeData(OpenMaya.MUserData):
     def __init__(self):
-        OpenMaya.MUserData.__init__(self, False) 
+        OpenMaya.MUserData.__init__(self, False) ## don't delete after draw
  
 class PivotNodeDrawOverride(OpenMayaRender.MPxDrawOverride):
     @staticmethod
@@ -65,11 +65,11 @@ class PivotNodeDrawOverride(OpenMayaRender.MPxDrawOverride):
         OpenMayaRender.MPxDrawOverride.__init__(self, obj, PivotNodeDrawOverride.draw)
  
     def supportedDrawAPIs(self):
-        
+        ## this plugin supports both GL and DX
         return OpenMayaRender.MRenderer.kOpenGL | OpenMayaRender.MRenderer.kDirectX11 | OpenMayaRender.MRenderer.kOpenGLCoreProfile
  
     def prepareForDraw(self, objPath, cameraPath, frameContext, oldData):
-        
+        ## Retrieve data cache (create if does not exist)
         data = oldData
         if not isinstance(data, PivotNodeData):
             data = PivotNodeData()
@@ -79,7 +79,7 @@ class PivotNodeDrawOverride(OpenMayaRender.MPxDrawOverride):
     def hasUIDrawables(self):
         return True
 
-    
+    # Viewport 2.0 addUIDrawables(Draw) Function
     def addUIDrawables(self, objPath, drawManager, frameContext, data):
             locatordata = data
             if not isinstance(locatordata, PivotNodeData):
