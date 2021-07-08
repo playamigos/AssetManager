@@ -309,6 +309,8 @@ global proc ExportSelected()
 
     string $filters = "Maya ASCII (*.ma);;Maya Binary (*.mb);;";
     $filePath = `fileDialog2 -fm 0 -fileFilter $filters -ds 2 -okc "Export"`;
+
+    $filePath[0] = substituteAllString($filePath[0], "/", "\\");
     
     string $ext = fileExtension($filePath[0]);
     
@@ -337,7 +339,7 @@ global proc ExportSelected()
     string $tagData = `scrollField -q -text $amEditTagInput`;
     $tagData = tolower($tagData);
     string $tags[];
-    $numTags = `tokenize $tagData " ,.@#*/'|][<>?\\()!$%_+-" $tags`;
+    $numTags = `tokenize $tagData " ,.@#*/'|][<>?\\()!$%_+-\n" $tags`;
     if($numTags==1 && $tags[0] == "")
     {
         deleteUI -window "amEditWindow";
@@ -367,8 +369,8 @@ global proc ExportSelected()
     if(!`filetest -d $selfTagFolder`)
         sysFile -md $selfTagFolder;
     string $selfTagPath = dirname($filePath[0]) + "\\.amtags\\"+basename($filePath[0], "" ) + ".tag";       
-    int $fileId = `fopen $tagPath "w"`;
-    fprint $fileId $filePath[0];
+    int $fileId = `fopen $selfTagPath "w"`;
+    fprint $fileId $allTags;
     fclose $fileId;
 
     deleteUI -window "amEditWindow";
@@ -404,7 +406,7 @@ global proc ModifyAsset(string $filePath)
     string $tagData = `scrollField -q -text $amEditTagInput`;
     $tagData = tolower($tagData);
     string $tags[];
-    $numTags = `tokenize $tagData " ,.@#*/'|][<>?\\()!$%_+-" $tags`;
+    $numTags = `tokenize $tagData " ,.@#*/'|][<>?\\()!$%_+-\n" $tags`;
     if($numTags==1 && $tags[0] == "")
     {
         clear $tags;
@@ -416,7 +418,7 @@ global proc ModifyAsset(string $filePath)
     {
         int $fileId = `fopen $tagPath "r"`;
         string $line1 = `fgetline $fileId`;
-        $numTags = `tokenize $line1 " ,.@#*/'|][<>?\\()!$%_+-" $oldTags`;
+        $numTags = `tokenize $line1 " ,.@#*/'|][<>?\\()!$%_+-\n" $oldTags`;
         if($numTags==1 && $oldTags[0] == "")
         {
            clear $oldTags;
