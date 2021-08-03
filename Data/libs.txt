@@ -1,2 +1,6 @@
 Desktop
 C:\Users\vivek\Desktop
+Blockouts
+C:\Users\vivek\Documents\maya\scripts\AssetManager\Blockout_Lib
+Asset Library
+A:

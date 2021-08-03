@@ -632,6 +632,12 @@ global proc AddLib()
         if(strip($name) != "" && strip($path) != "")
         {
             int $idx = size($amsLibNames);
+            
+            if( `substring $path (size($path)) (size($path))` == "\\")
+            {
+                $path = `substring $path 1 (size($path)-1)`;
+            }
+            
             $amsLibNames[$idx] = strip($name);
             $amsLibPaths[$idx] = strip($path);
             $amsCurrentLibPath = strip($path);

@@ -36,6 +36,16 @@ shelfButton
 	-sourceType "mel"
 ;
 
+
+shelfButton
+	-command ("source \""+$asInstallScriptLocation+"Scripts/IndexTags.mel\";")
+	-annotation "Index Tags in current library"
+	-label "IndexTags"
+	-image ($asInstallScriptLocation+"Icons/index."+$iconExt)
+	-image1 ($asInstallScriptLocation+"Icons/index."+$iconExt)
+	-sourceType "mel"
+;
+
 //--installTemplate resume--//
 print ("\n// "+"vGear"+" has been added to current shelf.\n");
 
